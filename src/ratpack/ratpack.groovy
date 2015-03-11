@@ -1,18 +1,42 @@
-import ratpack.handling.Handler;
-import ratpack.handling.Context;
+import sandkastenprojekt.server.Event
+import sandkastenprojekt.server.Tag
 
-import static ratpack.jackson.Jackson.json
+import static ratpack.groovy.Groovy.context;
 import static ratpack.groovy.Groovy.ratpack
+import groovy.json.JsonOutput
 
 
 ratpack {
     handlers {
-        get("events") {
-            new event("Saxons", "29.3.2015", "SAXONY", "Dresden")
-            render json(event)
+        get("api/events") {
+            def testlist = []
+            testlist[0] = new Event(
+                    id: 1,
+                    title: "Saxons",
+                    date: "29.3.2015",
+                    state: "SAXONY",
+                    city: "Dresden",
+                    tags: [1, 2]
+            )
+            def json = JsonOutput.toJson(testlist)
+            def responseString = '{ "events": ' + json + '}'
+            // TODO: is there a new more fancy way to do this ?
+            context.response.contentType("application/json")
+            context.response.getHeaders().add('Access-Control-Allow-Origin', '*' )
+            render(responseString)
         }
-        //assets('../Sandkastenprojekt_ember/dist')
 
-
+        get("api/tags/:id") {
+            def tag = new Tag(
+                    id: context.pathTokens.id.toInteger(),
+                    name: 'HipHop'
+            )
+            def json = JsonOutput.toJson(tag)
+            def responseString = '{ "tag": ' + json + '}'
+            // TODO: is there a new more fancy way to do this ?
+            context.response.contentType("application/json")
+            context.response.getHeaders().add('Access-Control-Allow-Origin', '*' )
+            render(responseString)
+        }
     }
 }
