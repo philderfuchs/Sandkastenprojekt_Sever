@@ -1,6 +1,6 @@
 package sandkastenprojekt.server
 
 class Tag {
-    int id
+    String id
     String name
 }

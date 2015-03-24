@@ -1,10 +1,10 @@
 package sandkastenprojekt.server
 
 class Event {
-    int id
+    String id
     String title
     String date
     String state
     String city
-    int[] tags
+    String[] tags
 }
