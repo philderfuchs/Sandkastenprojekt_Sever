@@ -74,7 +74,13 @@ ratpack {
             context.byMethod {
                 get {
 
-                    // TODO: is there a new more fancy way to do this ?
+	                String allTags = "";
+	                int tag_id = 0;
+					while(redis.exists("tags:${tag_id}")){
+						redis.get("tags:${tag_id}")
+					}
+
+	                // TODO: is there a new more fancy way to do this ?
                     context.response.contentType("application/json")
                     context.response.getHeaders().add('Access-Control-Allow-Origin', '*')
                     render("hallo")
