@@ -6,5 +6,6 @@ class Event {
     String date
     String state
     String city
+	String imageURL
     String[] tags
 }
